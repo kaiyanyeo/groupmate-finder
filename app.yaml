@@ -27,6 +27,22 @@ handlers:
   script: groupmatefinder.app
 
 # All other pages require login
+- url: /profile
+  script: groupmatefinder.app
+  login: required
+
+- url: /modules
+  script: groupmatefinder.app
+  login: required
+
+- url: /profilingquestions
+  script: groupmatefinder.app
+  login: required
+
+- url: /groups
+  script: groupmatefinder.app
+  login: required
+
 - url: /.*
   script: groupmatefinder.app
   login: required

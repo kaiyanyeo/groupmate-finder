@@ -51,7 +51,7 @@ class About(webapp2.RequestHandler):
                 'user_nickname': users.get_current_user().nickname(),
                 'logout': users.create_logout_url(self.request.host_url),
                 }
-            template = jinja_environment.get_template('about.html')
+            template = jinja_environment.get_template('profile_student.html')
             self.response.out.write(template.render(template_values))
         else:
             template = jinja_environment.get_template('about.html')
@@ -61,16 +61,84 @@ class About(webapp2.RequestHandler):
 class Profile(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
-        if user: #signed in already
+        # user should be signed in to view this page
+        if user:
             template_values = {
                 'user_nickname': users.get_current_user().nickname(),
                 'logout': users.create_logout_url(self.request.host_url),
                 }
             template = jinja_environment.get_template('profile_student.html')
             self.response.out.write(template.render(template_values))
+        else:
+            template = jinja_environment.get_template('profile_prof.html')
+            self.response.out.write(template.render())
 
+class Modules(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        # user should be signed in to view this page
+        if user:
+            template_values = {
+                'user_nickname': users.get_current_user().nickname(),
+                'logout': users.create_logout_url(self.request.host_url),
+                }
+            template = jinja_environment.get_template('modules_student.html')
+            self.response.out.write(template.render(template_values))
+        else:
+            template = jinja_environment.get_template('modules_prof.html')
+            self.response.out.write(template.render())
+
+class Add_Module(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        # user should be signed in to view this page
+        if user:
+            template_values = {
+                'user_nickname': users.get_current_user().nickname(),
+                'logout': users.create_logout_url(self.request.host_url),
+                }
+            template = jinja_environment.get_template('add_module.html')
+            self.response.out.write(template.render(template_values))
+        else:
+            template = jinja_environment.get_template('add_module.html')
+            self.response.out.write(template.render())
+
+class Profiling_Questions(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        # user should be signed in to view this page
+        if user:
+            template_values = {
+                'user_nickname': users.get_current_user().nickname(),
+                'logout': users.create_logout_url(self.request.host_url),
+                }
+            template = jinja_environment.get_template('profiling_questions.html')
+            self.response.out.write(template.render(template_values))
+        else:
+            template = jinja_environment.get_template('profiling_questions.html')
+            self.response.out.write(template.render())
+            
+class Groups(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        # user should be signed in to view this page
+        if user:
+            template_values = {
+                'user_nickname': users.get_current_user().nickname(),
+                'logout': users.create_logout_url(self.request.host_url),
+                }
+            template = jinja_environment.get_template('groups_student.html')
+            self.response.out.write(template.render(template_values))
+        else:
+            template = jinja_environment.get_template('groups_prof.html')
+            self.response.out.write(template.render())
+            
 app = webapp2.WSGIApplication([('/', HomePage),
                                ('/groupmatefinder', HomePage),
-                               ('/about', About)],
+                               ('/about', About),
+                               ('/profile', Profile),
+                               ('/modules', Modules),
+                               ('/addmod', Add_Module),
+                               ('/profilingquestions', Profiling_Questions),
+                               ('/groups', Groups)],
                               debug=True)
-
