@@ -24,7 +24,7 @@
 <!-- Page Title -->
   <div class="container-fluid">
     <div class="page-header">
-      <h1> Groupmate Finder <small>Student</small></h1>
+      <h1> Groupmate Finder <small>Modules</small></h1>
     </div>
   </div>
 
@@ -34,14 +34,14 @@
         <a class="navbar-brand" href="">Groupmate Finder</a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="profile_student.html">My Profile</a></li>
-        <li class="active"><a href="">Modules</a></li>
-        <li><a href="profiling_questions.html">Profiling Questions</a></li>
-        <li><a href="groups_student.html">Groups</a></li>
+        <li><a href="/profile">My Profile</a></li>
+        <li class="active"><a href="/modules">Modules</a></li>
+        <li><a href="/profilingquestions">Profiling Questions</a></li>
+        <li><a href="/groups">Groups</a></li>
       </ul>
       <div class="navbar-right">
         <p>Signed in as Student1 </p>
-        <a href="/">Sign out</a>
+        <a href="{{ logout }}">Sign out</a>
       </div>
     </div>
   </nav>
@@ -57,7 +57,7 @@
           </div>
         </div>
         <div class="row col-sm-6 col-md-4">
-            <button type="button" class="btn btn-primary">Add Module</button>
+            <button type="button" class="btn btn-primary"><a href="/addmod"><btn_link>Add Module</btn_link></a></button>
         </div>
     </div>
   </div>

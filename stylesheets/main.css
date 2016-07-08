@@ -12,3 +12,9 @@
   align-items: flex-end;
   padding-right: 20px;
 }
+
+/* For the Add Module Button */
+btn_link {
+  text-decoration: none;
+  color: white;
+}
