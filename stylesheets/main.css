@@ -1,0 +1,14 @@
+/* For the top bar */
+.top-container {
+    height: 100px;
+    position: relative;
+}
+
+/* For the sign-in on the right of the top bar */
+.signin-align {
+  position: relative;
+  bottom: 0;
+  text-align: center;
+  align-items: flex-end;
+  padding-right: 20px;
+}
