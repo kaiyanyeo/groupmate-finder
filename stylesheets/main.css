@@ -13,8 +13,27 @@
   padding-right: 20px;
 }
 
-/* For the Add Module Button */
+/* For the Add Module button */
 btn_link {
   text-decoration: none;
   color: white;
+}
+
+/* For the Edit button under Modules */
+edit_btn {
+  text-decoration: none;
+  color: black;
+}
+
+/* For the headings of contents */
+.content_header {
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+/* For aligning elements in the center */
+.center_align {
+  text-align: center;
+  margin: auto;
 }

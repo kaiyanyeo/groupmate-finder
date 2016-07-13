@@ -1,4 +1,5 @@
 <!-- Add Module Page Template -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Groupmate Finder</title>
+    <title>Groupmate Finder | Student: Add Module</title>
 
     <!-- Bootstrap -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,36 +23,44 @@
   </head>
   <body>
 
-<!-- Page Title -->
-  <div class="container-fluid">
-    <div class="page-header">
-      <h1> Groupmate Finder <small>Student</small></h1>
-    </div>
-  </div>
-
-  <nav class="navbar navbar-default navbar-static-top">
+    <!-- Page Title -->
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="">Groupmate Finder</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="/profile">My Profile</a></li>
-        <li class="active"><a href="/modules">Modules</a></li>
-        <li><a href="/profilingquestions">Profiling Questions</a></li>
-        <li><a href="/groups">Groups</a></li>
-      </ul>
-      <div class="navbar-right">
-        <p>Signed in as Student1 </p>
-        <a href="{{ logout }}">Sign out</a>
+      <div class="page-header">
+        <h1> Groupmate Finder <small>Add Module</small></h1>
       </div>
     </div>
-  </nav>
+    <!-- End of Page Title -->
 
-  <div class="container-fluid">
-    <h3 align="center">Search modules:</h3>
-    <input type="text" class="col-md-offset-4 col-md-3" name="Search module" placeholder="Enter module code or name..." >
-    <button type="button" class="col-md-1">Go!</button>
-  </div>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li><a href="/profile">My Profile</a></li>
+          <li class="active"><a href="/modules">Modules</a></li>
+          <li><a href="/profilingquestions">Profiling Questions</a></li>
+          <li><a href="/groups">Groups</a></li>
+        </ul>
+
+        <div class="navbar-right">
+          <p>Signed in as {{ user_nickname }} </p>
+          <a href="{{ logout }}">Sign out</a>
+        </div>
+      </div>
+    </nav>
+    <!-- End of Navigation Bar -->
+
+    <!-- Page Contents -->
+    <div class="container-fluid">
+      <h3 class="content_header">Search modules:</h3>
+      <br>
+      <input type="text" class="col-md-offset-4 col-md-3" name="Search module" placeholder="Enter module code or name..." >
+      <button type="button" class="col-md-1">Go!</button>
+    </div>
+    <!-- End of Page Contents -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
