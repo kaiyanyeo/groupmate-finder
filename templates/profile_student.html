@@ -1,4 +1,5 @@
-<!-- Profile Page Template for Professor -->
+<!-- Profile Page Template for Student -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,10 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Groupmate Finder</title>
+    <title>Groupmate Finder | Student: Profile</title>
 
     <!-- Bootstrap -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link type="text/css" rel="stylesheet" href="../stylesheets/main.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,46 +23,56 @@
   </head>
   <body>
 
-<!-- Page Title -->
-  <div class="container-fluid">
-    <div class="page-header">
-      <h1> Groupmate Finder <small>Student</small></h1>
-    </div>
-  </div>
-
-  <nav class="navbar navbar-default navbar-static-top">
+    <!-- Page Title -->
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="">Groupmate Finder</a>
-      </div>
-
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/profile">My Profile</a></li>
-        <li><a href="/modules">Modules</a></li>
-        <li><a href="/profilingquestions">Profiling Questions</a></li>
-        <li><a href="/groups">Groups</a></li>
-      </ul>
-      <div class="navbar-right">
-        <p>Signed in as {{ user_nickname }} </p>
-        <a href="{{ logout }}">Sign out</a>
+      <div class="page-header">
+        <h1> Groupmate Finder <small>Student</small></h1>
       </div>
     </div>
-  </nav>
+    <!-- End of Page Title -->
 
-  <div class="panel panel-default span5">
-    <div class="panel-body">
-      <h3 align="center">My Profile:</h3>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/profile">My Profile</a></li>
+          <li><a href="/modules">Modules</a></li>
+          <li><a href="/profilingquestions">Profiling Questions</a></li>
+          <li><a href="/groups">Groups</a></li>
+        </ul>
+
+        <div class="navbar-right">
+          <p>Signed in as {{ user_nickname }} </p>
+          <a href="{{ logout }}">Sign out</a>
+        </div>
+
+      </div>
+    </nav>
+    <!-- End of Navigation Bar -->
+
+    <!-- Page Contents -->
+    <div class="panel panel-default span5">
+      <div class="panel-body">
+        <h3 class="content_header">My Profile:</h3>
+        <br>
+
         <div class="row col-sm-6 col-md-4 col-md-offset-4">
-          <div class="thumbnail" align="center">
+          <div id="center" class="thumbnail">
             <img src="../images/userpic.png">
-            <h4>Student1</h4>
-            <p>Email Address: student1@comp.nus.edu.sg</p>
+            <h4>{{ user_nickname }}</h4>
+            <p>Email Address: {{ email }}</p>
             <br>
             <p>Modules Taking: </p>
           </div>
         </div>
+
+      </div>
     </div>
-  </div>
+    <!-- End of Page Contents -->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

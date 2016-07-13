@@ -1,4 +1,5 @@
-<!-- Homepage Template -->
+<!-- About Page Template -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -22,62 +23,69 @@
   </head>
   <body>
 
-<!-- Page Title -->
-<div class="container-fluid">
-  <div class="row-fluid top-container">
-    <div class="page-header">
-      <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
-    </div>
-  </div>
-</div>
-
-  <nav class="navbar navbar-default navbar-static-top">
+    <!-- Page Title -->
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/">Groupmate Finder</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="/">Home</a></li>
-        <li class="active"><a href="/about">About</a></li>
-      </ul>
-
-      {% if user_nickname %}
-        <div class="nav navbar-right signin-align">
-          {{ user_nickname }} <a href="{{ logout }}">Sign Out</a>
+      <div class="row-fluid top-container">
+        <div class="page-header">
+          <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
         </div>
-      {% else %}
-        <div class="nav navbar-right signin-align">
-          <a href="/groupmatefinder">Sign in</a>
-        </div>
-      {% endif %}
-
-    </div>
-  </nav>
-
-  <div class="panel panel-default span5">
-    <div class="panel-body">
-      <h3 align="center"><strong>ABOUT</strong></h3>
-      <div class="row col-md-8 col-md-offset-2" align="center">
-        <p>This is an online application to help people find suitable groupmates. Taking into account work abilities, work preferences and personalities, this application automatically helps find someone similar to you for you to group together.</p>
-
-        <br>
-
-        <p>With various functions to help match suitable people with you, we hope that you will have a much more enjoyable experience working with people of similar abilities and personalities.</p>
-
-        <br>
-
-        <h4 align="center">Creators:</h4>
-        <p>Team Catfish, Orbital, NUS School of Computing</p>
-        <p>Yeo Kai Yan, Lai Yingchen</p>
-
-        <br>
-
-        <h4 align="center">Mentored by:</h4>
-        <p>Tan Meng Choon</p>
       </div>
     </div>
-  </div>
+    <!-- End of Page Title -->
 
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Groupmate Finder</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/about">About</a></li>
+        </ul>
+
+        {% if user_nickname %}
+          <div class="nav navbar-right signin-align">
+            <p>{{ user_nickname }}</p>
+            <p><a href="{{ logout }}">Sign Out</a></p>
+          </div>
+        {% else %}
+          <div class="nav navbar-right signin-align">
+            <a href="/groupmatefinder">Sign in</a>
+          </div>
+        {% endif %}
+
+      </div>
+    </nav>
+    <!-- End of Navigation Bar -->
+
+    <!-- Page Contents -->
+    <div class="panel panel-default span5">
+      <div class="panel-body">
+        <h3 class="content_header">ABOUT</h3>
+        <br>
+        <div class="row col-md-8 col-md-offset-2" align="center">
+          <p>This is an online application to help people find suitable groupmates. Taking into account work abilities, work preferences and personalities, this application automatically helps find someone similar to you for you to group together.</p>
+
+          <br>
+
+          <p>With various functions to help match suitable people with you, we hope that you will have a much more enjoyable experience working with people of similar abilities and personalities.</p>
+
+          <br>
+
+          <h4 align="center">Creators:</h4>
+          <p>Team Catfish, Orbital, NUS School of Computing</p>
+          <p>Yeo Kai Yan, Lai Yingchen</p>
+
+          <br>
+
+          <h4 align="center">Mentored by:</h4>
+          <p>Tan Meng Choon</p>
+        </div>
+      </div>
+    </div>
+    <!-- End of Page Contents -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

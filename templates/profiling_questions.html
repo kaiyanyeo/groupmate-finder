@@ -1,4 +1,5 @@
 <!-- Profiling Questions Template -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Groupmate Finder</title>
+    <title>Groupmate Finder | Student: Profiling Questions</title>
 
     <!-- Bootstrap -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -21,57 +22,73 @@
     <![endif]-->
   </head>
   <body>
-<!-- Page Title -->
-  <div class="container-fluid">
-    <div class="page-header">
-      <h1> Groupmate Finder <small>Profiling Questions</small></h1>
-    </div>
-  </div>
 
-  <nav class="navbar navbar-default navbar-static-top">
+    <!-- Page Title -->
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="">Groupmate Finder</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="/profile">My Profile</a></li>
-        <li><a href="/modules">Modules</a></li>
-        <li class="active"><a href="/profilingquestions">Profiling Questions</a></li>
-        <li><a href="/groups">Groups</a></li>
-      </ul>
-      <div class="navbar-right">
-        <p>Signed in as Student1 </p>
-        <a href="{{ logout }}">Sign out</a>
+      <div class="page-header">
+        <h1> Groupmate Finder <small>Profiling Questions</small></h1>
       </div>
     </div>
-  </nav>
+    <!-- End of Page Title -->
 
-  <div class="panel panel-default span5">
-    <div class="panel-body">
-      <h4 align="center">What is your working style?</h4>
-      <div class="row col-sm-6 col-md-6 col-md-offset-3">
-        <div class="thumbnail">
-          <h4 align="center">Questions Answered: 15/30</h4>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-              50%
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li><a href="/profile">My Profile</a></li>
+          <li><a href="/modules">Modules</a></li>
+          <li class="active"><a href="/profilingquestions">Profiling Questions</a></li>
+          <li><a href="/groups">Groups</a></li>
+        </ul>
+
+        <div class="navbar-right">
+          <p>Signed in as {{ user_nickname }} </p>
+          <a href="{{ logout }}">Sign out</a>
+        </div>
+
+      </div>
+    </nav>
+    <!-- End of Navigation Bar -->
+
+    <!-- Page Contents -->
+    <div class="panel panel-default span5">
+      <div class="panel-body">
+        <h3 class="content_header">Profiling Questions</h3>
+        <br>
+
+        <h4 class="center_align">What is your working style?</h4>
+        <br>
+        <div class="row col-sm-6 col-md-6 col-md-offset-3">
+          <div class="thumbnail">
+            <h4 class="center_align">Questions Answered: 15/30</h4>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
+                50%
+              </div>
             </div>
+
+            <p>16. I prefer to work...</p>
+            <div class="radio">
+              <label><input type="radio" name="optradio">in the morning</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio">in the afternoon</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" name="optradio">at night</label>
+            </div>
+            <button type="button" class="btn btn-default btn-block">Submit</button>
+
           </div>
-          <p>16. I prefer to work...</p>
-          <div class="radio">
-            <label><input type="radio" name="optradio">in the morning</label>
-          </div>
-          <div class="radio">
-            <label><input type="radio" name="optradio">in the afternoon</label>
-          </div>
-          <div class="radio">
-            <label><input type="radio" name="optradio">at night</label>
-          </div>
-          <button type="button" class="btn btn-default btn-block">Submit</button>
         </div>
       </div>
     </div>
-  </div>
+    <!-- End of Page Contents -->
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

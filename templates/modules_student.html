@@ -1,4 +1,5 @@
-<!-- Current Modules Page Template -->
+<!-- Current Modules Page Template for Students -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>CS1020: Data Structures and Algorithms</title>
+    <title>Groupmate Finder | Student: Modules</title>
 
     <!-- Bootstrap -->
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -21,46 +22,59 @@
     <![endif]-->
   </head>
   <body>
-<!-- Page Title -->
-  <div class="container-fluid">
-    <div class="page-header">
-      <h1> Groupmate Finder <small>Modules</small></h1>
-    </div>
-  </div>
 
-  <nav class="navbar navbar-default navbar-static-top">
+    <!-- Page Title -->
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="">Groupmate Finder</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="/profile">My Profile</a></li>
-        <li class="active"><a href="/modules">Modules</a></li>
-        <li><a href="/profilingquestions">Profiling Questions</a></li>
-        <li><a href="/groups">Groups</a></li>
-      </ul>
-      <div class="navbar-right">
-        <p>Signed in as Student1 </p>
-        <a href="{{ logout }}">Sign out</a>
+      <div class="page-header">
+        <h1> Groupmate Finder <small>Modules</small></h1>
       </div>
     </div>
-  </nav>
+    <!-- End of Page Title -->
 
-  <div class="panel panel-default span5">
-    <div class="panel-body">
-      <h4 align="center">My modules:</h4>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <li><a href="/profile">My Profile</a></li>
+          <li class="active"><a href="/modules">Modules</a></li>
+          <li><a href="/profilingquestions">Profiling Questions</a></li>
+          <li><a href="/groups">Groups</a></li>
+        </ul>
+
+        <div class="navbar-right">
+          <p>Signed in as {{ user_nickname }}</p>
+          <a href="{{ logout }}">Sign out</a>
+        </div>
+
+      </div>
+    </nav>
+    <!-- End of Navigation Bar -->
+
+    <!-- Page Contents -->
+    <div class="panel panel-default span5">
+      <div class="panel-body">
+        <h3 class="content_header">My modules:</h3>
+        <br>
+
         <div class="row col-sm-6 col-md-4">
           <div class="thumbnail">
             <h4>CS1020</h4>
-            <p>Questions Answered: 15/30 <button type="button">Edit</button></p>
+            <p>Questions Answered: 15/30 <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
             <p>My project group: Not assigned</p>
           </div>
         </div>
+
         <div class="row col-sm-6 col-md-4">
             <button type="button" class="btn btn-primary"><a href="/addmod"><btn_link>Add Module</btn_link></a></button>
         </div>
+
+      </div>
     </div>
-  </div>
+    <!-- End of Page Contents -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

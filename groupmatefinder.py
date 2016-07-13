@@ -20,9 +20,14 @@ jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates"))
 
 # Datastore definitions
-class Preference(ndb.Model):
-    # Models a person's preference. Key is the nickname.
+class User(ndb.Model):
     email = ndb.StringProperty() # user email
+    id = ndb.StringProperty() # user's nickname
+
+"""class Profile(ndb.Model):
+    # Stores data about the user
+    gender = ndb.StringProperty()
+""" 
 
 # This is for the front page
 class HomePage(webapp2.RequestHandler):
@@ -66,6 +71,7 @@ class Profile(webapp2.RequestHandler):
             template_values = {
                 'user_nickname': users.get_current_user().nickname(),
                 'logout': users.create_logout_url(self.request.host_url),
+                'email': users.get_current_user(),
                 }
             template = jinja_environment.get_template('profile_student.html')
             self.response.out.write(template.render(template_values))
@@ -141,4 +147,4 @@ app = webapp2.WSGIApplication([('/', HomePage),
                                ('/addmod', Add_Module),
                                ('/profilingquestions', Profiling_Questions),
                                ('/groups', Groups)],
-                              debug=True)
+                              debug=False)
