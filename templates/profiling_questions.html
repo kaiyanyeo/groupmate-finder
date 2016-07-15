@@ -71,17 +71,22 @@
               </div>
             </div>
 
-            <p>16. I prefer to work...</p>
-            <div class="radio">
-              <label><input type="radio" name="optradio">in the morning</label>
-            </div>
-            <div class="radio">
-              <label><input type="radio" name="optradio">in the afternoon</label>
-            </div>
-            <div class="radio">
-              <label><input type="radio" name="optradio">at night</label>
-            </div>
-            <button type="button" class="btn btn-default btn-block">Submit</button>
+
+            <form action="/profilingquestions" method="post" name="work_time">
+
+              <p>1. I prefer to work...</p>
+              <div class="radio">
+                <label><input type="radio" name="work_time" value="{{ work_time }}">in the morning</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="work_time" value="{{ work_time }}">in the afternoon</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="work_time" value="{{ work_time }}">at night</label>
+              </div>
+              <input type="submit" value="Submit">
+            </form>
+
 
           </div>
         </div>
@@ -93,6 +98,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>
