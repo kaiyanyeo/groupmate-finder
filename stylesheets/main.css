@@ -37,3 +37,12 @@ edit_btn {
   text-align: center;
   margin: auto;
 }
+
+.suggestions li{
+    overflow:hidden;
+    height:0;
+    -webkit-transition:all 0.3s ease-in-out;
+    -moz-transition:all 0.3s ease-in-out;
+    -o-transition:all 0.3s ease-in-out;
+    transition:all 0.3s ease-in-out;
+}
