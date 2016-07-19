@@ -29,6 +29,7 @@ class Student(ndb.Model):
     student_id = ndb.StringProperty() # student matric num
     num_mod = ndb.IntegerProperty() # num of mods student is taking
 
+# id by module code
 class Module(ndb.Model):
     code = ndb.StringProperty()
     name = ndb.StringProperty()
@@ -44,6 +45,7 @@ class Module(ndb.Model):
         mod = mod_key.get()
         return mod
 
+# id by student nickname
 class Account(ndb.Model):
     # Model for representing a user's account; the student's profile
     # Key is the user nickname
@@ -118,9 +120,14 @@ class Modules(webapp2.RequestHandler):
         user = users.get_current_user()
         # user should be signed in to view this page
         if user:
+            # obtain student account information
+            acc_key = ndb.Key('Account', users.get_current_user().nickname())
+            stu_acc = acc_key.get()
+            
             template_values = {
                 'user_nickname': users.get_current_user().nickname(),
                 'logout': users.create_logout_url(self.request.host_url),
+                'mods_taking_list': stu_acc.mods_taking,
                 }
             template = jinja_environment.get_template('modules_student.html')
             self.response.out.write(template.render(template_values))
@@ -143,20 +150,11 @@ class Add_Module(webapp2.RequestHandler):
             # obtain student account information
             acc_key = ndb.Key('Account', users.get_current_user().nickname())
             stu_acc = acc_key.get()
-        
-            if stu_acc == None:
-                template_values = {
-                    'user_nickname': users.get_current_user().nickname(),
-                    'logout': users.create_logout_url(self.request.host_url),
-                    }
-                template = jinja_environment.get_template('add_module.html')
-                self.response.out.write(template.render(template_values))
-            else:
-                template_values = {
-                    'user_nickname': users.get_current_user().nickname(),
-                    'logout': users.create_logout_url(self.request.host_url),
-                    'mod_taking': stu_acc.mods_taking,
-                    }
+
+            template_values = {
+                'user_nickname': users.get_current_user().nickname(),
+                'logout': users.create_logout_url(self.request.host_url),
+                }
             template = jinja_environment.get_template('add_module.html')
             self.response.out.write(template.render(template_values))
         else:
@@ -193,8 +191,6 @@ class Add_Module(webapp2.RequestHandler):
         else: # this mod entity already exists
             curr_stu = new_mod.num_students
             new_mod.num_students = curr_stu + 1
-#            curr_groups = new_mod.num_groups
-#            new_mod.num_students = curr_groups + 1
         new_mod.put()
 
         stu_acc.mods_taking.append(new_mod)
@@ -206,8 +202,7 @@ class Add_Module(webapp2.RequestHandler):
             'new_mod': new_mod,
             'mod_taking': stu_acc.mods_taking,
             }
-        template = jinja_environment.get_template('add_module.html')
-        self.response.out.write(template.render(template_values))
+        self.redirect('/modules')
 
 # Handler for the Profiling Questions page
 class Profiling_Questions(webapp2.RequestHandler):

@@ -60,18 +60,25 @@
         <h3 class="content_header">My modules:</h3>
         <br>
 
+        <!-- Testing -->
         <div class="row col-sm-6 col-md-4">
           <div class="thumbnail">
             <h4>CS1020</h4>
             <p>Questions Answered: 15/30 <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
             <p>My project group: Not assigned</p>
           </div>
-
-          <div class="thumbnail">
-            <p>{{ mod_code }}</p>
-          </div>
-
         </div>
+        <!-- end of Testing -->
+
+        {% for mod in mods_taking_list %}
+          <div class="row col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <h4>{{ mod.code}}</h4>
+              <p>Questions Answered: 15/30 <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
+              <p>My project group: Not assigned</p>
+            </div>
+          </div>
+        {% endfor %}
 
         <div class="row col-sm-6 col-md-4">
             <button type="button" class="btn btn-primary"><a href="/addmod"><btn_link>Add Module</btn_link></a></button>
