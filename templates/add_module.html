@@ -57,15 +57,13 @@
     <div class="container-fluid">
       <h3 class="content_header">Search modules:</h3>
       <br>
-      <input type="text" class="col-md-offset-4 col-md-3" name="Search" placeholder="Enter module code or name..." value="{{ search_mod }}">
       <form action="/addmod" method="post">
-        <input type="hidden" name="search_mod" value="{{ search_mod }}">
-        <button type="submit" name="submit_param" value="submit_value" class="link-button">Add Module</button>
+        <input type="text" class="col-md-offset-4 col-md-3" name="search_mod" placeholder="Enter module code only...">
+        <button type="submit" name="search_mod" class="link-button">Add Module</button>
       </form>
       <br>
-      {% if mod_code %}
-      <p>{{ mod_code }}</p>
-      {% endif %}
+      <p>{{ new_mod }}</p>
+      <p>{{ mod_taking }}</p>
 
     </div>
     <!-- End of Page Contents -->
