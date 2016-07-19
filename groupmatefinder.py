@@ -188,14 +188,13 @@ class Add_Module(webapp2.RequestHandler):
                 if new_mod.code == code:
                     new_mod.name = module_list[code]
                     new_mod.num_students = 1
-                    new_mod.num_groups = 1
+                    new_mod.num_groups = 0
                     break
         else: # this mod entity already exists
-            new_mod.name = "test"
             curr_stu = new_mod.num_students
             new_mod.num_students = curr_stu + 1
-            curr_groups = new_mod.num_groups
-            new_mod.num_students = curr_groups + 1
+#            curr_groups = new_mod.num_groups
+#            new_mod.num_students = curr_groups + 1
         new_mod.put()
 
         stu_acc.mods_taking.append(new_mod)
