@@ -15,6 +15,7 @@ from google.appengine.ext import ndb
 from google.appengine.api import users
 from google.appengine.api import mail
 
+""" Global Variables """
 # template directory
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__) + "/templates"))
@@ -22,19 +23,24 @@ jinja_environment = jinja2.Environment(
 module_list = json.load(urllib2.urlopen(
     "http://api.nusmods.com/2015-2016/1/moduleList.json"))
 
-# Datastore definitions
+
+""" Datastore definitions """
+
+# (incomplete) Model for representing a student
 class Student(ndb.Model):
-    # Sub model for representing a student
     nickname = ndb.StringProperty() # student's nickname
     student_id = ndb.StringProperty() # student matric num
     num_mod = ndb.IntegerProperty() # num of mods student is taking
 
+# Model that stores information on a particular module
 # id by module code
 class Module(ndb.Model):
+    # Key is the module code
     code = ndb.StringProperty()
     name = ndb.StringProperty()
     num_students = ndb.IntegerProperty(default=0)
-    num_groups = ndb.IntegerProperty(default=0)
+# add in when formed!
+# groups = ndb.StructuredProperty('Project_Group', repeated=True)
 
     # each module forms one entity
     def save_mod(mod):
@@ -45,9 +51,9 @@ class Module(ndb.Model):
         mod = mod_key.get()
         return mod
 
+# Model for representing a user's account; the student's profile
 # id by student nickname
 class Account(ndb.Model):
-    # Model for representing a user's account; the student's profile
     # Key is the user nickname
     student = ndb.StructuredProperty(Student)
     mods_taking = ndb.StructuredProperty(Module, repeated=True)
@@ -63,7 +69,22 @@ class Account(ndb.Model):
     def get_mods(self):
         return self.mods_taking
 
+# Model for the list of profiling questions
+# id is the user
+class Questions(ndb.Model):
+    # work preferences
+    work_pref = ndb.StringProperty(repeated=True)
+    # expectations for module
+    expectation = ndb.StringProperty(repeated=True)
 
+# Model for representing a single project group
+class Project_Group(ndb.Model):
+    group_name = ndb.StringProperty()
+    # list of students in a particular group
+    students_list = ndb.StructuredProperty(Student, repeated=True)
+
+
+""" Request Handlers """
 # Handler for the front page
 class HomePage(webapp2.RequestHandler):
     # Front page for those logged in
@@ -123,14 +144,22 @@ class Modules(webapp2.RequestHandler):
             # obtain student account information
             acc_key = ndb.Key('Account', users.get_current_user().nickname())
             stu_acc = acc_key.get()
-            
-            template_values = {
-                'user_nickname': users.get_current_user().nickname(),
-                'logout': users.create_logout_url(self.request.host_url),
-                'mods_taking_list': stu_acc.mods_taking,
-                }
-            template = jinja_environment.get_template('modules_student.html')
-            self.response.out.write(template.render(template_values))
+
+            if stu_acc == None:
+                template_values = {
+                    'user_nickname': users.get_current_user().nickname(),
+                    'logout': users.create_logout_url(self.request.host_url),
+                    }
+                template = jinja_environment.get_template('modules_student.html')
+                self.response.out.write(template.render(template_values))
+            else:
+                template_values = {
+                    'user_nickname': users.get_current_user().nickname(),
+                    'logout': users.create_logout_url(self.request.host_url),
+                    'mods_taking_list': stu_acc.mods_taking,
+                    }
+                template = jinja_environment.get_template('modules_student.html')
+                self.response.out.write(template.render(template_values))
         else:
             template = jinja_environment.get_template('modules_prof.html')
             self.response.out.write(template.render())
@@ -186,7 +215,6 @@ class Add_Module(webapp2.RequestHandler):
                 if new_mod.code == code:
                     new_mod.name = module_list[code]
                     new_mod.num_students = 1
-                    new_mod.num_groups = 0
                     break
         else: # this mod entity already exists
             curr_stu = new_mod.num_students
@@ -219,20 +247,27 @@ class Profiling_Questions(webapp2.RequestHandler):
         else:
             template = jinja_environment.get_template('profiling_questions.html')
             self.response.out.write(template.render())
-
-"""    def post(self):
+"""
+    def post(self):
         user = users.get_current_user()
 
-        curr = ndb.Key('Profile', users.get_current_user().nickname())
-        profile = curr.get()
+#        curr = ndb.Key('Profile', users.get_current_user().nickname())
+#        profile = curr.get()
 #        if user:
-        profile.student = Student(
-            email = users.get_current_user(),
-            nickname = users.get_current_user().nickname())
+#        profile.student = Student(
+#            email = users.get_current_user(),
+#            nickname = users.get_current_user().nickname())
         # .get("Submit")?
-        work_time_ans = self.request.get('work_time')
-        profile.work_time = work_time_ans
-        profile.put()
+#        work_time_ans = self.request.get('work_time')
+#        profile.work_time = work_time_ans
+#        profile.put()
+
+        qns_key = ndb.Key('Questions', users.get_current_user())
+        qns_entity = qns_key.get()
+
+        if qns_entity = None:
+            qns_entity = Questions(id=users.get_current_user())
+
 
         template_values = {
             'user_nickname': users.get_current_user().nickname(),
