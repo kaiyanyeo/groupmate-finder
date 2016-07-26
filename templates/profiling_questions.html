@@ -64,29 +64,92 @@
         <br>
         <div class="row col-sm-6 col-md-6 col-md-offset-3">
           <div class="thumbnail">
-            <h4 class="center_align">Questions Answered: 15/30</h4>
+            <h4 class="center_align">Questions Answered: {{ num_answered }}/5</h4>
             <div class="progress">
               <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                50%
+                {{ num_answered }}
               </div>
             </div>
 
+            {% if num_answered == 0 %}
+              <form action="/profilingquestions" method="post">
+                <p>1. I prefer to work...</p>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref1"  value="{{ q1a }}">{{ q1a }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref1" value="{{ q1b }}">{{ q1b }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref1" value="{{ q1c }}">{{ q1c }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref1" value="{{ q1d }}">{{ q1d }}</label>
+                </div>
+                <input type="submit" value="Submit">
+              </form>
 
-            <form action="/profilingquestions" method="post" name="work_time">
+            {% elif num_answered == 1 %}
+              <form action="/profilingquestions" method="post">
+                <p>2. I'd rather...</p>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref2" value="{{ q2a }}">{{ q2a }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref2" value="{{ q2b }}">{{ q2b }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref2" value="{{ q2c }}">{{ q2c }}</label>
+                </div>
+                <input type="submit" value="Submit">
+              </form>
 
-              <p>1. I prefer to work...</p>
-              <div class="radio">
-                <label><input type="radio" name="work_time" value="{{ work_time }}">in the morning</label>
-              </div>
-              <div class="radio">
-                <label><input type="radio" name="work_time" value="{{ work_time }}">in the afternoon</label>
-              </div>
-              <div class="radio">
-                <label><input type="radio" name="work_time" value="{{ work_time }}">at night</label>
-              </div>
-              <input type="submit" value="Submit">
-            </form>
+            {% elif num_answered == 2 %}
+              <form action="/profilingquestions" method="post">
+                <p>3. Imagine it’s 3 AM in the morning, and the project is due at 9 AM. There is some improvement you guys can do to bring your project up a level, but that would mean no sleep for everyone. You’d say…...</p>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref3" value="{{ q3a }}">{{ q3a }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref3" value="{{ q3b }}">{{ q3b }}</label>
+                </div>
+                <input type="submit" value="Submit">
+              </form>
 
+            {% elif num_answered == 3 %}
+              <form action="/profilingquestions" method="post">
+                <p>4. Someone is proposing an interesting but risky project idea that would guarantee a huge learning opportunity, but might not fetch you a good grade due to the potential difficulties. Your reaction is...</p>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref4" value="{{ q4a }}">{{ q4a }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref4" value="{{ q4b }}">{{ q4b }}</label>
+                </div>
+                <input type="submit" value="Submit">
+              </form>
+
+            {% elif num_answered == 4 %}
+              <form action="/profilingquestions" method="post">
+                <p>5. If I must choose, it's more important that...</p>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref5" value="{{ q5a }}">{{ q5a }}</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="work_pref5" value="{{ q5b }}">{{ q5b }}</label>
+                </div>
+                <input type="submit" value="Submit">
+              </form>
+
+            {% elif num_answered == 5 %}
+            <p>Congratulations! You have completed the profiling survey. You will be placed in a group soon.</p>
+
+            {% endif %}
+
+            <p>{{ work_pref1 }}</p>
+            <p>{{ work_pref2 }}</p>
+            <p>{{ work_pref3 }}</p>
+            <p>{{ work_pref4 }}</p>
+            <p>{{ work_pref5 }}</p>
 
           </div>
         </div>
