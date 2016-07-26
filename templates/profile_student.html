@@ -64,14 +64,22 @@
           <div class="center_align" class="thumbnail">
             <img src="../images/userpic.png">
             <h4>{{ user_nickname }}</h4>
-            <p>Email Address: {{ email }}</p>
+            <p><strong>Email Address</strong>: {{ email }}</p>
             <br>
-            <p>Modules Taking: </p>
+            <p><strong>Modules Taking</strong>:</p>
           </div>
         </div>
 
+        <div class="row col-sm-6 col-md-4 col-md-offset-4">
+            {% for mod in mods_taking_list %}
+              <div class="thumbnail">
+                {{ mod.code }}: {{ mod.name }}
+              </div>
+            {% endfor %}
+        </div>
       </div>
     </div>
+
     <!-- End of Page Contents -->
 
 

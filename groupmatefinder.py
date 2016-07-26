@@ -140,13 +140,27 @@ class Profile(webapp2.RequestHandler):
         user = users.get_current_user()
         # user should be signed in to view this page
         if user:
-            template_values = {
-                'user_nickname': users.get_current_user().nickname(),
-                'logout': users.create_logout_url(self.request.host_url),
-                'email': users.get_current_user().email(),
-                }
-            template = jinja_environment.get_template('profile_student.html')
-            self.response.out.write(template.render(template_values))
+            # obtain student account information
+            acc_key = ndb.Key('Account', users.get_current_user().nickname())
+            stu_acc = acc_key.get()
+
+            if stu_acc == None:
+                template_values = {
+                    'user_nickname': users.get_current_user().nickname(),
+                    'logout': users.create_logout_url(self.request.host_url),
+                    'email': users.get_current_user().email(),
+                    }
+                template = jinja_environment.get_template('profile_student.html')
+                self.response.out.write(template.render(template_values))
+            else:
+                template_values = {
+                    'user_nickname': users.get_current_user().nickname(),
+                    'logout': users.create_logout_url(self.request.host_url),
+                    'email': users.get_current_user().email(),
+                    'mods_taking_list': stu_acc.mods_taking,
+                    }
+                template = jinja_environment.get_template('profile_student.html')
+                self.response.out.write(template.render(template_values))
         else:
             template = jinja_environment.get_template('profile_prof.html')
             self.response.out.write(template.render())
