@@ -49,7 +49,7 @@ class Module(ndb.Model):
     # Key is the module code
     code = ndb.StringProperty()
     name = ndb.StringProperty()
-    num_students = ndb.IntegerProperty(default=0)
+    stu_list = ndb.StructuredProperty(Student, repeated=True)
 # add in when formed!
 # groups = ndb.StructuredProperty('Project_Group', repeated=True)
 
@@ -72,7 +72,9 @@ class ProfilingAns(ndb.Model):
     work_pref2 = ndb.StringProperty()
     # whether student encourages the team
     work_pref3 = ndb.StringProperty()
+    # reaction to an idea
     work_pref4 = ndb.StringProperty()
+    # attitude
     work_pref5 = ndb.StringProperty()
 
 # Model for representing a user's account; the student's profile
@@ -234,18 +236,26 @@ class Add_Module(webapp2.RequestHandler):
         # create new mod entity if not already created
         new_mod_key = ndb.Key('Module', search_id)
         new_mod = new_mod_key.get()
+
+        # get Student entity
+        stu_key = ndb.Key('Student', users.get_current_user().nickname())
+        stu = stu_key
+        if stu == None:
+            stu = Student(id=users.get_current_user().nickname())
+        stu.put()
+
         if new_mod == None: # entity for this mod not created before
             new_mod = Module(id = search_id)
             new_mod.code = search_id
+
             # update relevant information to the entity
             for code in module_list:
                 if new_mod.code == code:
                     new_mod.name = module_list[code]
-                    new_mod.num_students = 1
+                    new_mod.stu_list.append(stu)
                     break
         else: # this mod entity already exists
-            curr_stu = new_mod.num_students
-            new_mod.num_students = curr_stu + 1
+            new_mod.stu_list.append(stu)
         new_mod.put()
 
         stu_acc.mods_taking.append(new_mod)
@@ -381,6 +391,12 @@ class Profiling_Questions(webapp2.RequestHandler):
             template = jinja_environment.get_template('profiling_questions.html')
             self.response.out.write(template.render())
 
+# Match students to form groups. Called through CRON job, runs every 5 mins through the day.
+class Match_Groupmates(webapp2.RequestHandler):
+    def get(self):
+
+        
+
 # Handler for the Groups page
 class Groups(webapp2.RequestHandler):
     def get(self):
@@ -404,5 +420,6 @@ app = webapp2.WSGIApplication([('/', HomePage),
                                ('/modules', Modules),
                                ('/addmod', Add_Module),
                                ('/profilingquestions', Profiling_Questions),
+                               ('/matchgroupmates', Match_Groupmates),
                                ('/groups', Groups)],
                               debug=False)
