@@ -23,6 +23,7 @@ jinja_environment = jinja2.Environment(
 # obtain list of modules from nusmods api
 module_list = json.load(urllib2.urlopen(
     "http://api.nusmods.com/2015-2016/1/moduleList.json"))
+# list of options for profiling questions
 profiling_qns = {'q1a': 'in the morning', 'q1b': 'in the afternoon',
                  'q1c': 'at night', 'q1d': 'no preference',
                  'q2a': 'meet online', 'q2b': 'meet my groupmate(s) in person',
@@ -33,34 +34,18 @@ profiling_qns = {'q1a': 'in the morning', 'q1b': 'in the afternoon',
                  'q4b': 'Well, to be realistic, we do need good grades. Let\'s go for something safer.',
                  'q5a': 'the work is done well and efficiently',
                  'q5b': 'everyone\'s feelings are taken care of and friendships are forged among the group'}
+# num of profiling questions
+num_profiling_qns = 5
 
 
 """ Datastore definitions """
 
 # Model for representing a student
-# id is student_id
+# id is nickname
 class Student(ndb.Model):
     nickname = ndb.StringProperty() # student's name
     student_id = ndb.StringProperty() # for now, student email for identification
-
-# Model that stores information on a particular module
-# id by module code
-class Module(ndb.Model):
-    # Key is the module code
-    code = ndb.StringProperty()
-    name = ndb.StringProperty()
-    stu_list = ndb.StructuredProperty(Student, repeated=True)
-# add in when formed!
-# groups = ndb.StructuredProperty('Project_Group', repeated=True)
-
-    # each module forms one entity
-    def save_mod(mod):
-        mod_key = mod.put()
-        return mod_key
-
-    def get_mod(mod_key):
-        mod = mod_key.get()
-        return mod
+    is_grouped = ndb.BooleanProperty(default=False)
 
 # Model for the list of answers to the profiling questions
 # id is the student nickname
@@ -76,6 +61,32 @@ class ProfilingAns(ndb.Model):
     work_pref4 = ndb.StringProperty()
     # attitude
     work_pref5 = ndb.StringProperty()
+
+# Model for representing a single project group
+# id is the group_name
+class Project_Group(ndb.Model):
+    group_name = ndb.StringProperty()
+    # list of students in a particular group
+    student1 = ndb.StructuredProperty(Student)
+    student2 = ndb.StructuredProperty(Student)
+
+# Model that stores information on a particular module
+# id by module code
+class Module(ndb.Model):
+    # Key is the module code
+    code = ndb.StringProperty()
+    name = ndb.StringProperty()
+    stu_list = ndb.StructuredProperty(Student, repeated=True)
+    groups = ndb.StructuredProperty(Project_Group, repeated=True)
+
+    # each module forms one entity
+    def save_mod(mod):
+        mod_key = mod.put()
+        return mod_key
+
+    def get_mod(mod_key):
+        mod = mod_key.get()
+        return mod
 
 # Model for representing a user's account; the student's profile
 # id by student nickname
@@ -94,12 +105,6 @@ class Account(ndb.Model):
     
     def get_mods(self):
         return self.mods_taking
-
-# Model for representing a single project group
-class Project_Group(ndb.Model):
-    group_name = ndb.StringProperty()
-    # list of students in a particular group
-    students_list = ndb.StructuredProperty(Student, repeated=True)
 
 
 """ Request Handlers """
@@ -392,10 +397,74 @@ class Profiling_Questions(webapp2.RequestHandler):
             self.response.out.write(template.render())
 
 # Match students to form groups. Called through CRON job, runs every 5 mins through the day.
+# Currently only able to group pairs
 class Match_Groupmates(webapp2.RequestHandler):
     def get(self):
+        # algorithm for grouping students!
 
-        
+        for mod in module_list:
+            # get mod entity if it exists
+            curr_mod = ndb.Key('Module', mod.name)
+            if curr_mod == None:
+                continue
+
+            # obtain list of students taking module
+            curr_stu_list = curr_mod.stu_list
+            # reset is_grouped attribute for all students
+            for student in curr_stu_list:
+                student.is_grouped = False
+
+            # too few students to form a group, continue
+            if len(curr_stu_list) == 0 or len(curr_stu_list) == 1:
+                continue
+            else:
+                iteration = 1
+                while len(curr_stu_list) > 0:
+                    # compare answers to profiling questions
+                    for index1 in range(len(curr_stu_list)):
+                        stu1 = curr_stu_list[index1]
+                        stu1_ans = ndb.Key('ProfilingAns', stu1.nickname)
+                        # student is grouped already
+                        if stu1.is_grouped == True:
+                            continue
+
+                        for index2 in range(index1+1, len(curr_stu_list)):
+                            stu2 = curr_stu_list[index2]
+                            stu2_ans = ndb.Key('ProfilingAns', stu2.nickname)
+                            # student is grouped already
+                            if stu2.is_grouped == True:
+                                continue
+
+                            # compare answers
+                            num_equal = 0
+                            for ans1, ans2 in zip(stu1_ans, stu2_ans):
+                                # student needs to answer all questions before being grouped
+                                if ans1 == None or ans2 == None:
+                                    continue
+                                if ans1 == ans2:
+                                    num_equal += 1
+
+                            # all answers compared
+                            # groups students with 5 answers same together in iter1,
+                            # then 4 in iter2, then 3 in iter3...
+                            if num_equal == num_profiling_qns - iteration + 1:
+                                num_groups = len(curr_mod.groups)
+                                group_x = Project_Group(group_name = 'group' + num_groups)
+                                group_x.student1 = stu1
+                                group_x.student1 = stu2
+                                group_x.put()
+                                curr_mod.groups.append(group_x)
+                                curr_mod.put()
+                                stu1.is_grouped = True
+                                stu2.is_grouped = True
+                                # continues to group the next stu1
+                                continue
+
+                    # remove students from list if already grouped, then group the remainder
+                    for student in curr_stu_list:
+                        if student.is_grouped == True:
+                            curr_stu_list.remove(student)
+                    iteration += 1
 
 # Handler for the Groups page
 class Groups(webapp2.RequestHandler):
