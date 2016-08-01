@@ -55,16 +55,20 @@
 
     <!-- Page Contents -->
     <div class="container-fluid">
-      <h3 class="content_header">Search modules:</h3>
+      <h3 class="content_header">Search Modules to Add:</h3>
       <br>
-      <input type="text" class="col-md-offset-4 col-md-3" name="Search module" placeholder="Enter module code or name..." >
-      <button type="button" class="col-md-1">Go!</button>
+      <form action="/addmod" method="post">
+        <input type="text" class="col-md-offset-4 col-md-3" name="search_mod" placeholder="Enter module code only...">
+        <button type="submit" name="" class="link-button">Add Module</button>
+      </form>
+      <br>
+
     </div>
     <!-- End of Page Contents -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

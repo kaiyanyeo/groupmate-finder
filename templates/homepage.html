@@ -21,20 +21,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="background-style">
 
     <!-- Page Title -->
-    <div class="container-fluid">
-      <div class="row-fluid top-container">
-        <div class="page-header">
-          <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
+    <div class="top-bar">
+      <div class="container-fluid">
+        <div class="row-fluid top-container">
+          <div class="page-header">
+            <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
+          </div>
         </div>
       </div>
     </div>
     <!-- End of Page Title -->
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">Groupmate Finder</a>
@@ -52,7 +54,7 @@
           </div>
         {% else %}
           <div class="nav navbar-right signin-align">
-            <a href="/groupmatefinder">Sign in</a>
+            <a href="/groupmatefinder" class="signin-link">Sign in</a>
           </div>
         {% endif %}
       </div>
@@ -60,7 +62,7 @@
     <!-- End of Navigation Bar -->
 
     <!-- Page Contents -->
-    <div class="panel panel-default span5">
+    <div class="panel panel-default span5 non-signin-page">
       <div class="panel-body">
         <h3 class="content_header">Welcome</h3>
         <br>
@@ -84,6 +86,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

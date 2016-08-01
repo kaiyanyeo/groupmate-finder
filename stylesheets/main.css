@@ -1,16 +1,44 @@
+/* For the background style */
+.background-style {
+  background-color: #e6ffff
+}
+
 /* For the top bar */
 .top-container {
-    height: 100px;
-    position: relative;
+  height: 120px;
+  position: relative;
+}
+
+.top-bar {
+  background-color: #FFFFE0;
+}
+
+/* For the image from
+http://www.auntannie.com/FridayFun/DollChain/DollChainsDiagonal440.jpg used as a picture on top bar */
+.img-style {
+  width: 150px;
+  height: 100px;
 }
 
 /* For the sign-in on the right of the top bar */
 .signin-align {
   position: relative;
-  bottom: 0;
+  bottom: 10;
   text-align: center;
   align-items: flex-end;
   padding-right: 20px;
+}
+
+/* For the sign-in link */
+.signin-link {
+  color: white;
+  text-decoration: underline;
+}
+
+/* For the signed in email */
+.signin-email {
+  color: white;
+  text-decoration: none;
 }
 
 /* For the Add Module button */
@@ -25,6 +53,11 @@ edit_btn {
   color: black;
 }
 
+/* For the styling of the content area for non signin page */
+.non-signin-page {
+  background-color: #F0F8FF;
+}
+
 /* For the headings of contents */
 .content_header {
   text-align: center;
@@ -36,4 +69,14 @@ edit_btn {
 .center_align {
   text-align: center;
   margin: auto;
+}
+
+
+.suggestions li{
+    overflow:hidden;
+    height:0;
+    -webkit-transition:all 0.3s ease-in-out;
+    -moz-transition:all 0.3s ease-in-out;
+    -o-transition:all 0.3s ease-in-out;
+    transition:all 0.3s ease-in-out;
 }

@@ -43,6 +43,11 @@ handlers:
   script: groupmatefinder.app
   login: required
 
+# cron job
+- url: /matchgroupmates
+  script: groupmatefinder.app
+  login: admin
+
 - url: /.*
   script: groupmatefinder.app
   login: required

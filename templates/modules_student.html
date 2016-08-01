@@ -21,18 +21,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="background-style">
 
     <!-- Page Title -->
-    <div class="container-fluid">
-      <div class="page-header">
-        <h1> Groupmate Finder <small>Modules</small></h1>
+    <div class="top-bar">
+      <div class="container-fluid">
+        <div class="row-fluid top-container">
+          <div class="page-header">
+            <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
+          </div>
+        </div>
       </div>
     </div>
     <!-- End of Page Title -->
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
@@ -46,8 +50,8 @@
         </ul>
 
         <div class="navbar-right">
-          <p>Signed in as {{ user_nickname }}</p>
-          <a href="{{ logout }}">Sign out</a>
+          <p class="signin-email">Signed in as {{ user_nickname }}</p>
+          <a href="{{ logout }}" class="signin-link">Sign out</a>
         </div>
 
       </div>
@@ -60,13 +64,15 @@
         <h3 class="content_header">My modules:</h3>
         <br>
 
-        <div class="row col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <h4>CS1020</h4>
-            <p>Questions Answered: 15/30 <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
-            <p>My project group: Not assigned</p>
+        {% for mod in mods_taking_list %}
+          <div class="row col-sm-6 col-md-4">
+            <div class="thumbnail">
+              <h4><strong>{{ mod.code}}</strong></h4>
+              <h5>{{ mod.name }}</h5>
+              <p>My project group: Not assigned</p>
+            </div>
           </div>
-        </div>
+        {% endfor %}
 
         <div class="row col-sm-6 col-md-4">
             <button type="button" class="btn btn-primary"><a href="/addmod"><btn_link>Add Module</btn_link></a></button>
@@ -79,6 +85,6 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

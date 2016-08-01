@@ -21,18 +21,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="background-style">
 
     <!-- Page Title -->
-    <div class="container-fluid">
-      <div class="page-header">
-        <h1> Groupmate Finder <small>Student</small></h1>
+    <div class="top-bar">
+      <div class="container-fluid">
+        <div class="row-fluid top-container">
+          <div class="page-header">
+            <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
+          </div>
+        </div>
       </div>
     </div>
     <!-- End of Page Title -->
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
@@ -46,8 +50,8 @@
         </ul>
 
         <div class="navbar-right">
-          <p>Signed in as {{ user_nickname }} </p>
-          <a href="{{ logout }}">Sign out</a>
+          <p class="signin-email">Signed in as {{ user_nickname }} </p>
+          <a href="{{ logout }}" class="signin-link">Sign out</a>
         </div>
 
       </div>
@@ -61,23 +65,31 @@
         <br>
 
         <div class="row col-sm-6 col-md-4 col-md-offset-4">
-          <div id="center" class="thumbnail">
+          <div class="center_align" class="thumbnail">
             <img src="../images/userpic.png">
             <h4>{{ user_nickname }}</h4>
-            <p>Email Address: {{ email }}</p>
+            <p><strong>Email Address</strong>: {{ email }}</p>
             <br>
-            <p>Modules Taking: </p>
+            <p><strong>Modules Taking</strong>:</p>
           </div>
         </div>
 
+        <div class="row col-sm-6 col-md-4 col-md-offset-4">
+            {% for mod in mods_taking_list %}
+              <div class="thumbnail">
+                <p>{{ mod.code }}: {{ mod.name }}</p>
+              </div>
+            {% endfor %}
+        </div>
       </div>
     </div>
+
     <!-- End of Page Contents -->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>
