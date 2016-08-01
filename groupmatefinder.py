@@ -412,15 +412,15 @@ class Match_Groupmates(webapp2.RequestHandler):
     def get(self):
         # algorithm for grouping students!
 
-        for mod in module_list:
+        for code in module_list:
             # get mod entity if it exists
-            curr_mod_key = ndb.Key('Module', mod.code)
+            curr_mod_key = ndb.Key('Module', code)
             curr_mod = curr_mod_key.get()
             if curr_mod == None: # module entity does not exist
                 continue
 
             # get lists information on particular module
-            curr_list_key = ndb.Key('Lists_In_Module', mod.code)
+            curr_list_key = ndb.Key('Lists_In_Module', code)
             curr_list_mod = curr_list_key.get()
             if curr_list_mod == None: # lists information for this mod does not exist
                 continue
@@ -492,8 +492,8 @@ class Groups(webapp2.RequestHandler):
         user = users.get_current_user()
 
         # variables for storing values later
-        name_of_group = ""
-        other_stu = ""
+        name_of_group = None
+        other_stu = None
 
         # user should be signed in to view this page
         if user:
@@ -516,7 +516,7 @@ class Groups(webapp2.RequestHandler):
 
                     # if lists entity not created before, cannot group any student yet
                     if lists_mod == None: # lists entity for this mod not created before
-                        lists_mod = Lists_In_Module(id = search_id)
+                        lists_mod = Lists_In_Module(id=module_code)
                         lists_mod.put()
                         break
                     else: # this mod entity already exists
