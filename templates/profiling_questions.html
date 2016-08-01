@@ -66,8 +66,8 @@
           <div class="thumbnail">
             <h4 class="center_align">Questions Answered: {{ num_answered }}/5</h4>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%">
-                {{ num_answered }}
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{ num_answered }}" aria-valuemin="0" aria-valuemax="{{ num_profiling_qns }}" style="width:{{ percent_answered }}%">
+                {{ percent_answered }} %
               </div>
             </div>
 
@@ -145,11 +145,13 @@
 
             {% endif %}
 
+            <!-- Testing -->
             <p>{{ work_pref1 }}</p>
             <p>{{ work_pref2 }}</p>
             <p>{{ work_pref3 }}</p>
             <p>{{ work_pref4 }}</p>
             <p>{{ work_pref5 }}</p>
+            <!-- end of Testing -->
 
           </div>
         </div>

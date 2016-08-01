@@ -178,10 +178,20 @@ class Modules(webapp2.RequestHandler):
                 template = jinja_environment.get_template('modules_student.html')
                 self.response.out.write(template.render(template_values))
             else:
+                curr_profile_key = ndb.Key('ProfilingAns', users.get_current_user().nickname())
+                curr_profile = curr_profile_key.get()
+                if curr_profile == None:
+                    curr_profile = ProfilingAns(id=users.get_current_user().nickname())
+                    curr_profile.put()
+                stu_acc.stu_profile = curr_profile
+                stu_acc.put()
+
                 template_values = {
                     'user_nickname': users.get_current_user().nickname(),
                     'logout': users.create_logout_url(self.request.host_url),
                     'mods_taking_list': stu_acc.mods_taking,
+                    'num_answered': curr_profile.num_answered,
+                    'num_profiling_qns': num_profiling_qns,
                     }
                 template = jinja_environment.get_template('modules_student.html')
                 self.response.out.write(template.render(template_values))
@@ -286,9 +296,12 @@ class Profiling_Questions(webapp2.RequestHandler):
 #            profiling_ans.num_answered = 0 # for testing
             profiling_ans.put()
 
+            percent_answered = int(profiling_ans.num_answered / float(num_profiling_qns) * 100)
+
             template_values = {
                 'user_nickname': users.get_current_user().nickname(),
                 'num_answered': profiling_ans.num_answered,
+                'percent_answered': percent_answered,
                 'q1a': profiling_qns['q1a'],
                 'q1b': profiling_qns['q1b'],
                 'q1c': profiling_qns['q1c'],

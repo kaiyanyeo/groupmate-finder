@@ -60,21 +60,11 @@
         <h3 class="content_header">My modules:</h3>
         <br>
 
-        <!-- Testing -->
-        <div class="row col-sm-6 col-md-4">
-          <div class="thumbnail">
-            <h4>CS1020</h4>
-            <p>Questions Answered: 15/30 <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
-            <p>My project group: Not assigned</p>
-          </div>
-        </div>
-        <!-- end of Testing -->
-
         {% for mod in mods_taking_list %}
           <div class="row col-sm-6 col-md-4">
             <div class="thumbnail">
               <h4>{{ mod.code}}</h4>
-              <p>Questions Answered: 15/30 <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
+              <p>Questions Answered: {{ num_answered }}/{{ num_profiling_qns }} <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
               <p>My project group: Not assigned</p>
             </div>
           </div>
