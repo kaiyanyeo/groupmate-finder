@@ -538,22 +538,22 @@ class Groups(webapp2.RequestHandler):
                                 name_of_group = group.group_name
                                 other_stu = stu1.nickname
 
+                template_values = {
+                    'user_nickname': users.get_current_user().nickname(),
+                    'logout': users.create_logout_url(self.request.host_url),
+                    'stu_acc': stu_acc,
+                    'first_mod': stu_acc.mods_taking[0],
+                    'mods_taking_list': stu_acc.mods_taking,
+                    'group_name': name_of_group,
+                    'other_stu': other_stu,
+                    }
+                template = jinja_environment.get_template('groups_student.html')
+                self.response.out.write(template.render(template_values))
             else:
                 stu_acc = Account(id=users.get_current_user().nickname())
                 stu_acc.put()
-
-            template_values = {
-                'user_nickname': users.get_current_user().nickname(),
-                'logout': users.create_logout_url(self.request.host_url),
-                'stu_acc': stu_acc,
-                'first_mod': stu_acc.mods_taking[0],
-                'mods_taking_list': stu_acc.mods_taking,
-                'group_name': name_of_group,
-                'other_stu': other_stu,
-                }
-            template = jinja_environment.get_template('groups_student.html')
-            self.response.out.write(template.render(template_values))
-
+                template = jinja_environment.get_template('groups_student_default.html')
+                self.response.out.write(template.render())
         else:
             template = jinja_environment.get_template('groups_prof.html')
             self.response.out.write(template.render())
