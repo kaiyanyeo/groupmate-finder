@@ -21,18 +21,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="background-style">
 
     <!-- Page Title -->
-    <div class="container-fluid">
-      <div class="page-header">
-        <h1> Groupmate Finder <small>Groups</small></h1>
+    <div class="top-bar">
+      <div class="container-fluid">
+        <div class="row-fluid top-container">
+          <div class="page-header">
+            <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
+          </div>
+        </div>
       </div>
     </div>
     <!-- End of Page Title -->
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
@@ -46,8 +50,8 @@
         </ul>
 
         <div class="navbar-right">
-          <p>Signed in as {{ user_nickname }} </p>
-          <a href="{{ logout }}">Sign out</a>
+          <p class="signin-email">Signed in as {{ user_nickname }} </p>
+          <a href="{{ logout }}" class="signin-link">Sign out</a>
        </div>
 
       </div>
@@ -65,22 +69,23 @@
           {% if mods_taking_list == None %}
             <p>You are currently not assigned to any groups.</p>
           {% else %}
-            {% if first_mod == None %}
-              <p>You are currently not assigned to any groups.</p>
-            {% endif %}
             {% for mod in mods_taking_list %}
-              <div class="row col-sm-6 col-md-4">
-                <div class="thumbnail">
-                  <h4>{{ mod.code }}</h4>
-                  {% if group_name == None %}
-                    <p>Group: Not assigned yet</p>
-                    <p>My partner: Not assigned yet</p>
-                  {% else %}
-                    <p>Group: {{ group_name }}</p>
-                    <p>My partner: {{ other_stu }}</p>
-                  {% endif %}
+              {% if mod == None %}
+                <p>You are currently not assigned to any groups.</p>
+              {% else %}
+                <div class="row col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <h4>{{ mod.code }}</h4>
+                    {% if group_name == None %}
+                      <p>Group: Not assigned yet</p>
+                      <p>My partner: Not assigned yet</p>
+                    {% else %}
+                      <p>Group: {{ group_name }}</p>
+                      <p>My partner: {{ other_stu }}</p>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
+              {% endif %}
             {% endfor %}
           {% endif %}
         {% endif %}

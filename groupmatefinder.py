@@ -542,7 +542,6 @@ class Groups(webapp2.RequestHandler):
                     'user_nickname': users.get_current_user().nickname(),
                     'logout': users.create_logout_url(self.request.host_url),
                     'stu_acc': stu_acc,
-                    'first_mod': stu_acc.mods_taking[0],
                     'mods_taking_list': stu_acc.mods_taking,
                     'group_name': name_of_group,
                     'other_stu': other_stu,
