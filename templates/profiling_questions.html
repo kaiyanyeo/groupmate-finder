@@ -64,7 +64,10 @@
         <br>
         <div class="row col-sm-6 col-md-6 col-md-offset-3">
           <div class="thumbnail">
-            <h4 class="center_align">Questions Answered: {{ num_answered }}/5</h4>
+            <h4 class="center_align">Questions Answered: {{ num_answered }}/{{ num_profiling_qns }}</h4>
+
+            <p class="center_align"><em>Note: You have to answer all profiling questions before being grouped.</em></p>
+            <br>
             <div class="progress">
               <div class="progress-bar" role="progressbar" aria-valuenow="{{ num_answered }}" aria-valuemin="0" aria-valuemax="{{ num_profiling_qns }}" style="width:{{ percent_answered }}%">
                 {{ percent_answered }} %

@@ -59,7 +59,31 @@
       <div class="panel-body">
         <h3 class="content_header">My groups:</h3>
         <br>
-        <p>You are currently not assigned to any groups.</p>
+        {% if stu_acc == None %}
+          <p>You are currently not assigned to any groups.</p>
+        {% else %}
+          {% if mods_taking_list == None %}
+            <p>You are currently not assigned to any groups.</p>
+          {% else %}
+            {% if first_mod == None %}
+              <p>You are currently not assigned to any groups.</p>
+            {% endif %}
+            {% for mod in mods_taking_list %}
+              <div class="row col-sm-6 col-md-4">
+                <div class="thumbnail">
+                  <h4>{{ mod.code }}</h4>
+                  {% if group_name == None %}
+                    <p>Group: Not assigned yet</p>
+                    <p>My partner: Not assigned yet</p>
+                  {% else %}
+                    <p>Group: {{ group_name }}</p>
+                    <p>My partner: {{ other_stu }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endif %}
       </div>
     </div>
     <!-- End of Page Contents -->

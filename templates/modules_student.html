@@ -63,8 +63,8 @@
         {% for mod in mods_taking_list %}
           <div class="row col-sm-6 col-md-4">
             <div class="thumbnail">
-              <h4>{{ mod.code}}</h4>
-              <p>Questions Answered: {{ num_answered }}/{{ num_profiling_qns }} <button type="button"><a href="/profilingquestions"><edit_btn>Edit</edit_btn></a></button></p>
+              <h4><strong>{{ mod.code}}</strong></h4>
+              <h5>{{ mod.name }}</h5>
               <p>My project group: Not assigned</p>
             </div>
           </div>

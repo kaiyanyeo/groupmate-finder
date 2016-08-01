@@ -300,6 +300,7 @@ class Profiling_Questions(webapp2.RequestHandler):
 
             template_values = {
                 'user_nickname': users.get_current_user().nickname(),
+                'num_profiling_qns': num_profiling_qns,
                 'num_answered': profiling_ans.num_answered,
                 'percent_answered': percent_answered,
                 'q1a': profiling_qns['q1a'],
@@ -489,14 +490,70 @@ class Match_Groupmates(webapp2.RequestHandler):
 class Groups(webapp2.RequestHandler):
     def get(self):
         user = users.get_current_user()
+
+        # variables for storing values later
+        name_of_group = ""
+        other_stu = ""
+
         # user should be signed in to view this page
         if user:
+            acc_key = ndb.Key('Account', users.get_current_user().nickname())
+            stu_acc = acc_key.get()
+
+            if stu_acc:
+                # obtain lists of modules student is taking
+                # then get information on groups the student is in
+                mods_taking_list = stu_acc.mods_taking
+
+                for mod in mods_taking_list:
+                    # if not taking any mods yet, cannot show any group
+                    if mod.code == None:
+                        break
+
+                    module_code = mod.code
+                    lists_mod_key = ndb.Key('Lists_In_Module', module_code)
+                    lists_mod = lists_mod_key.get()
+
+                    # if lists entity not created before, cannot group any student yet
+                    if lists_mod == None: # lists entity for this mod not created before
+                        lists_mod = Lists_In_Module(id = search_id)
+                        lists_mod.put()
+                        break
+                    else: # this mod entity already exists
+                        # obtain list of groups in the particular module
+                        groups_in_mod = lists_mod.groups
+
+                        if groups_in_mod == None:
+                            break
+                        # find the group that the student is in
+                        for group in groups_in_mod:
+                            if group == None:
+                                break
+                            stu1 = group.student1
+                            stu2 = group.student2
+                            if stu1.nickname == users.get_current_user().nickname():
+                                name_of_group = group.group_name
+                                other_stu = stu2.nickname
+                            elif stu2.nickname == users.get_current_user().nickname():
+                                name_of_group = group.group_name
+                                other_stu = stu1.nickname
+
+            else:
+                stu_acc = Account(id=users.get_current_user().nickname())
+                stu_acc.put()
+
             template_values = {
                 'user_nickname': users.get_current_user().nickname(),
                 'logout': users.create_logout_url(self.request.host_url),
+                'stu_acc': stu_acc,
+                'first_mod': stu_acc.mods_taking[0],
+                'mods_taking_list': stu_acc.mods_taking,
+                'group_name': name_of_group,
+                'other_stu': other_stu,
                 }
             template = jinja_environment.get_template('groups_student.html')
             self.response.out.write(template.render(template_values))
+
         else:
             template = jinja_environment.get_template('groups_prof.html')
             self.response.out.write(template.render())
