@@ -70,23 +70,21 @@ class Project_Group(ndb.Model):
     student1 = ndb.StructuredProperty(Student)
     student2 = ndb.StructuredProperty(Student)
 
+# Model that stores lists related to a particular module
+# Comes in a pair with Module entity;
+# necessary due to limitations of ndb that only allows one layer of repeated properties
+# id is module code
+class Lists_In_Module(ndb.Model):
+    stu_list = ndb.StructuredProperty(Student, repeated=True)
+    groups = ndb.StructuredProperty(Project_Group, repeated=True)
+
 # Model that stores information on a particular module
-# id by module code
+# each module forms one entity
+# id is module code
 class Module(ndb.Model):
     # Key is the module code
     code = ndb.StringProperty()
     name = ndb.StringProperty()
-    stu_list = ndb.StructuredProperty(Student, repeated=True)
-    groups = ndb.StructuredProperty(Project_Group, repeated=True)
-
-    # each module forms one entity
-    def save_mod(mod):
-        mod_key = mod.put()
-        return mod_key
-
-    def get_mod(mod_key):
-        mod = mod_key.get()
-        return mod
 
 # Model for representing a user's account; the student's profile
 # id by student nickname
@@ -94,17 +92,6 @@ class Account(ndb.Model):
     student = ndb.StructuredProperty(Student)
     mods_taking = ndb.StructuredProperty(Module, repeated=True)
     stu_profile = ndb.StructuredProperty(ProfilingAns)
-
-    def new_account(acc):
-        acc_key = acc.put()
-        return acc_key
-
-    def get_account(acc_key):
-        acc = acc_key.get()
-        return acc
-    
-    def get_mods(self):
-        return self.mods_taking
 
 
 """ Request Handlers """
@@ -165,6 +152,7 @@ class Profile(webapp2.RequestHandler):
                     'logout': users.create_logout_url(self.request.host_url),
                     'email': users.get_current_user().email(),
                     'mods_taking_list': stu_acc.mods_taking,
+                    'module_list': module_list,
                     }
                 template = jinja_environment.get_template('profile_student.html')
                 self.response.out.write(template.render(template_values))
@@ -238,16 +226,19 @@ class Add_Module(webapp2.RequestHandler):
         # self.request.get('<input name>')
         search_id = self.request.get('search_mod')
 
-        # create new mod entity if not already created
-        new_mod_key = ndb.Key('Module', search_id)
-        new_mod = new_mod_key.get()
-
         # get Student entity
         stu_key = ndb.Key('Student', users.get_current_user().nickname())
-        stu = stu_key
+        stu = stu_key.get()
         if stu == None:
             stu = Student(id=users.get_current_user().nickname())
         stu.put()
+
+        # create new mod entity and lists entity if not already created
+        new_mod_key = ndb.Key('Module', search_id)
+        new_mod = new_mod_key.get()
+
+        new_lists_key = ndb.Key('Lists_In_Module', search_id)
+        new_lists_mod = new_lists_key.get()
 
         if new_mod == None: # entity for this mod not created before
             new_mod = Module(id = search_id)
@@ -257,11 +248,16 @@ class Add_Module(webapp2.RequestHandler):
             for code in module_list:
                 if new_mod.code == code:
                     new_mod.name = module_list[code]
-                    new_mod.stu_list.append(stu)
                     break
-        else: # this mod entity already exists
-            new_mod.stu_list.append(stu)
         new_mod.put()
+
+        if new_lists_mod == None: # lists entity for this mod not created before
+            new_lists_mod = Lists_In_Module(id = search_id)
+            new_lists_mod.stu_list.append(stu)
+
+        else: # this mod entity already exists
+            new_lists_mod.stu_list.append(stu)
+        new_lists_mod.put()
 
         stu_acc.mods_taking.append(new_mod)
         stu_acc.put() # update student account
@@ -404,12 +400,20 @@ class Match_Groupmates(webapp2.RequestHandler):
 
         for mod in module_list:
             # get mod entity if it exists
-            curr_mod = ndb.Key('Module', mod.name)
-            if curr_mod == None:
+            curr_mod_key = ndb.Key('Module', mod.code)
+            curr_mod = curr_mod_key.get()
+            if curr_mod == None: # module entity does not exist
+                continue
+
+            # get lists information on particular module
+            curr_list_key = ndb.Key('Lists_In_Module', mod.code)
+            curr_list_mod = curr_list_key.get()
+            if curr_list_mod == None: # lists information for this mod does not exist
                 continue
 
             # obtain list of students taking module
-            curr_stu_list = curr_mod.stu_list
+            curr_stu_list = curr_list_mod.stu_list
+
             # reset is_grouped attribute for all students
             for student in curr_stu_list:
                 student.is_grouped = False
@@ -423,14 +427,16 @@ class Match_Groupmates(webapp2.RequestHandler):
                     # compare answers to profiling questions
                     for index1 in range(len(curr_stu_list)):
                         stu1 = curr_stu_list[index1]
-                        stu1_ans = ndb.Key('ProfilingAns', stu1.nickname)
-                        # student is grouped already
+                        stu1_ans_key = ndb.Key('ProfilingAns', stu1.nickname)
+                        stu1_ans = stu1_ans_key.get()
+                        # student is grouped already, go to next student
                         if stu1.is_grouped == True:
                             continue
 
                         for index2 in range(index1+1, len(curr_stu_list)):
                             stu2 = curr_stu_list[index2]
-                            stu2_ans = ndb.Key('ProfilingAns', stu2.nickname)
+                            stu2_ans_key = ndb.Key('ProfilingAns', stu2.nickname)
+                            stu2_ans = stu2_ans_key.get()
                             # student is grouped already
                             if stu2.is_grouped == True:
                                 continue
@@ -448,13 +454,13 @@ class Match_Groupmates(webapp2.RequestHandler):
                             # groups students with 5 answers same together in iter1,
                             # then 4 in iter2, then 3 in iter3...
                             if num_equal == num_profiling_qns - iteration + 1:
-                                num_groups = len(curr_mod.groups)
+                                num_groups = len(curr_list_mod.groups)
                                 group_x = Project_Group(group_name = 'group' + num_groups)
                                 group_x.student1 = stu1
                                 group_x.student1 = stu2
                                 group_x.put()
-                                curr_mod.groups.append(group_x)
-                                curr_mod.put()
+                                curr_list_mod.groups.append(group_x)
+                                curr_list_mod.put()
                                 stu1.is_grouped = True
                                 stu2.is_grouped = True
                                 # continues to group the next stu1
