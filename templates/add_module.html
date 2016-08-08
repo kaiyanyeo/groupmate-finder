@@ -21,18 +21,22 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body class="background-style">
 
     <!-- Page Title -->
-    <div class="container-fluid">
-      <div class="page-header">
-        <h1> Groupmate Finder <small>Add Module</small></h1>
+    <div class="top-bar">
+      <div class="container-fluid">
+        <div class="row-fluid top-container">
+          <div class="page-header">
+            <h1> Groupmate Finder <small>Helping You Find Groupmates</small></h1>
+          </div>
+        </div>
       </div>
     </div>
     <!-- End of Page Title -->
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/groupmatefinder">Groupmate Finder</a>
@@ -46,22 +50,26 @@
         </ul>
 
         <div class="navbar-right">
-          <p>Signed in as {{ user_nickname }} </p>
-          <a href="{{ logout }}">Sign out</a>
+          <p class="signin-email">Signed in as {{ user_nickname }} </p>
+          <a href="{{ logout }}" class="signin-link">Sign out</a>
         </div>
       </div>
     </nav>
     <!-- End of Navigation Bar -->
 
     <!-- Page Contents -->
-    <div class="container-fluid">
+    <div class="panel panel-default span5">
+      <div class="panel-body">
       <h3 class="content_header">Search Modules to Add:</h3>
+      <br>
+      <p class="center_align"><em>Please type in only the module code of the module you wish to add.</em></p>
       <br>
       <form action="/addmod" method="post">
         <input type="text" class="col-md-offset-4 col-md-3" name="search_mod" placeholder="Enter module code only...">
         <button type="submit" name="" class="link-button">Add Module</button>
       </form>
       <br>
+      </div>
 
     </div>
     <!-- End of Page Contents -->

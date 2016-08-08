@@ -1,5 +1,5 @@
 cron:
 - description: "matching groupmates"
   url: /matchgroupmates
-  schedule: every 24 hours
+  schedule: every 5 minutes from 00:30 to 00:33
   timezone: Asia/Singapore
